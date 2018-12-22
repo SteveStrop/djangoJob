@@ -57,12 +57,15 @@ class Agent(models.Model):
 
 class Job(models.Model):
     ref = models.CharField(max_length=13)
-    client = models.ForeignKey(Client, on_delete=models.SET_NULL, null=True, blank=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
-    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True, blank=True)
-    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True, blank=True)
-    appointment = models.ForeignKey(Appointment, on_delete=models.SET_NULL, null=True, blank=True)
-    property_type = models.CharField(max_length=20)
+    vendor = models.ForeignKey(Vendor, on_delete=models.SET_NULL, null=True,
+                               blank=True)  # todo replace with custom field
+    address = models.ForeignKey(Address, on_delete=models.SET_NULL, null=True,
+                                blank=True)  # todo replace with custom field
+    appointment = models.ForeignKey(Appointment, on_delete=models.SET_NULL, null=True,
+                                    blank=True)  # todo replace with custom field
+    property_type = models.CharField(max_length=20,null=True, blank=True)
     beds = models.SmallIntegerField(null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     floorplan = models.BooleanField(default=True, verbose_name='Floorplan required')
