@@ -109,3 +109,4 @@ venv.bak/
 jobs/migrations/
 jobs/templates/
 templates/
+/DjangoJobs/settings.py

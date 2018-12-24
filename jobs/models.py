@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import JSONField
 
 
 # Create your models here.
@@ -46,6 +47,7 @@ class Job(models.Model):
     specific_reqs = models.TextField(default='Streetscape : 1', null=True, blank=True)
     status = models.BooleanField(default=True, verbose_name='Active')
     history = models.TextField(null=True, blank=True)
+    appointment = JSONField({'time': models.CharField(max_length=100, null=True, blank=True)})
 
     def __str__(self):
         return str(self.ref)
@@ -63,15 +65,15 @@ class Address(models.Model):
         return f'{self.street}, {self.postcode}'
 
 
-class Appointment(models.Model):
-    date = models.DateTimeField(unique=True)
-    job = models.ForeignKey(Job, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name_plural = "Appointment"
-
-    def __str__(self):
-        return str(self.date.strftime("%a %d %b %H: %M"))
+# class Appointment(models.Model):
+#     date = models.DateTimeField(unique=True)
+#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+#
+#     class Meta:
+#         verbose_name_plural = "Appointment"
+#
+#     def __str__(self):
+#         return str(self.date.strftime("%a %d %b %H: %M"))
 
 
 class Vendor(models.Model):
@@ -80,7 +82,7 @@ class Vendor(models.Model):
     phone_1 = models.CharField(max_length=13, verbose_name='phone', null=True, blank=True)
     phone_2 = models.CharField(max_length=13, verbose_name='phone', null=True, blank=True)
     phone_3 = models.CharField(max_length=13, verbose_name='phone', null=True, blank=True)
-    email = models.EmailField(max_length=100,null=True,blank=True)
+    email = models.EmailField(max_length=100, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
