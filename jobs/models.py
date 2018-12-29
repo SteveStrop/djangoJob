@@ -3,6 +3,24 @@ from django.contrib.postgres.fields import JSONField
 
 
 # Create your models here.
+class Client(models.Model):
+    name = models.CharField(max_length=50)
+    address = models.CharField(max_length=200, null=True, blank=True)
+    postcode = models.CharField(max_length=8, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.name)
+
+
+class ClientDetail(models.Model):
+    phone = models.CharField(max_length=13)
+    name = models.CharField(max_length=13, null=True, blank=True)
+    email = models.CharField(max_length=13, null=True, blank=True)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
 class Agent(models.Model):
     branch = models.CharField(max_length=50)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -53,7 +71,7 @@ class AgentDetail(models.Model):
 
 class Job(models.Model):
     ref = models.CharField(max_length=13)
-    # client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
     property_type = models.CharField(max_length=20, null=True, blank=True)
     beds = models.SmallIntegerField(null=True, blank=True)
@@ -63,8 +81,8 @@ class Job(models.Model):
     folder = models.CharField(max_length=100, null=True, blank=True)
     specific_reqs = models.TextField(default='Streetscape : 1', null=True, blank=True)
     status = models.BooleanField(default=True, verbose_name='Active')
-    # history = models.TextField(null=True, blank=True)
-    # appointment = JSONField()
+    history = models.TextField(null=True, blank=True)
+    appointment = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return str(self.ref)
