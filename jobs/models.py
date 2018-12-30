@@ -21,6 +21,7 @@ class ClientDetail(models.Model):
     def __str__(self):
         return self.name
 
+
 class Agent(models.Model):
     branch = models.CharField(max_length=50)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -38,6 +39,7 @@ class AgentDetail(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # class Client(models.Model):
 #     name_1 = models.CharField(max_length=100, verbose_name='name')
@@ -73,8 +75,11 @@ class Job(models.Model):
     ref = models.CharField(max_length=13)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
-    property_type = models.CharField(max_length=20, null=True, blank=True)
-    beds = models.SmallIntegerField(null=True, blank=True)
+    address = models.CharField(max_length=200, null=True, blank=True)
+    postcode = models.CharField(max_length=8, null=True, blank=True)
+    property_choices = [('h', 'house'), ('f', 'flat'), ('b', 'bungalow'), ('s', 'semi')]
+    property_type = models.CharField(max_length=20, choices=property_choices, null=True, blank=True)
+    beds = models.SmallIntegerField(default=3, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     floorplan = models.BooleanField(default=True, verbose_name='Floorplan required')
     photos = models.SmallIntegerField(default=20)
@@ -113,7 +118,7 @@ class Job(models.Model):
 
 class Vendor(models.Model):
     phone = models.CharField(max_length=13)
-    name = models.CharField(max_length=100,null=True, blank=True)
+    name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100, null=True, blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
 
