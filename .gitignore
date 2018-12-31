@@ -107,6 +107,5 @@ venv.bak/
 
 .idea/
 jobs/migrations/
-jobs/templates/
 templates/
 /DjangoJobs/settings.py

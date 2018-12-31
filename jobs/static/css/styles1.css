@@ -1,0 +1,64 @@
+h1 {
+    font-size: 22px;
+    color: darkslategray;
+}
+
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+
+}
+
+.sidebar-nav a {
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.page-current {
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.current_jobs {
+    position: absolute;
+    margin: 0;
+    transform: scale(1);
+    width: 90%;
+    transition: 0.3s;
+}
+
+/*.current_jobs:hover{*/
+/*transform: scale(.5)*/
+/*}*/
+
+.staffgridview {
+    table-layout: fixed;
+    width: 100%;
+    font-size: 10px;
+    text-align: left;
+    color: darkslategray;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    border: 1px solid #efefef;
+}
+
+.staffgridview th {
+    margin: 0;
+    padding: 2px;
+    font-size: 12px;
+    font-weight: bold;
+    color: #850101;
+    text-align: left;
+    background-color: #EFEFEF;
+}
+.staffdetailview{
+width: 50%;
+}
+.staffgridview td {
+    padding: 2px;
+    border: 1px solid #efefef;
+}
+
+.floorplan {
+    padding-left: 10px !important;
+}

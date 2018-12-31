@@ -1,8 +1,10 @@
 from django.db import models
-from django.contrib.postgres.fields import JSONField
 
 
 # Create your models here.
+from django.urls import reverse
+
+
 class Client(models.Model):
     name = models.CharField(max_length=50)
     address = models.CharField(max_length=200, null=True, blank=True)
@@ -77,43 +79,24 @@ class Job(models.Model):
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
     address = models.CharField(max_length=200, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
-    property_choices = [('h', 'house'), ('f', 'flat'), ('b', 'bungalow'), ('s', 'semi')]
+    property_choices = [('house', 'house'), ('flat', 'flat'), ('bungalow', 'bungalow'), ('semi', 'semi')]
     property_type = models.CharField(max_length=20, choices=property_choices, null=True, blank=True)
     beds = models.SmallIntegerField(default=3, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     floorplan = models.BooleanField(default=True, verbose_name='Floorplan required')
     photos = models.SmallIntegerField(default=20)
     folder = models.CharField(max_length=100, null=True, blank=True)
-    specific_reqs = models.TextField(default='Streetscape : 1', null=True, blank=True)
+    specific_reqs = models.TextField(default='Streetscape: 1', null=True, blank=True)
     status = models.BooleanField(default=True, verbose_name='Active')
     history = models.TextField(null=True, blank=True)
     appointment = models.DateTimeField(null=True, blank=True)
 
+    def get_absolute_url(self):
+        """Return the url to access a detailed record for this job"""
+        return reverse("job-detail", args=[str(self.id)])
+
     def __str__(self):
         return str(self.ref)
-
-
-# class Address(models.Model):
-#     street = models.CharField(max_length=200)
-#     postcode = models.CharField(max_length=8)
-#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-#
-#     class Meta:
-#         verbose_name_plural = "Address"
-#
-#     def __str__(self):
-#         return f'{self.street}, {self.postcode}'
-
-
-# class Appointment(models.Model):
-#     date = models.DateTimeField(unique=True)
-#     job = models.ForeignKey(Job, on_delete=models.CASCADE)
-#
-#     class Meta:
-#         verbose_name_plural = "Appointment"
-#
-#     def __str__(self):
-#         return str(self.date.strftime("%a %d %b %H: %M"))
 
 
 class Vendor(models.Model):
