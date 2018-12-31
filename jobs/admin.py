@@ -9,15 +9,6 @@ from .models import Agent, AgentDetail, Job, Vendor, Client, ClientDetail
 admin.site.site_header = 'Estate Agent'
 
 
-# admin.site.register(Vendor)
-
-
-# admin.site.register(Job)
-
-
-# admin.site.register(Agent)
-# admin.site.register(Client)
-
 class VendorInline(admin.TabularInline):
     model = Vendor
     extra = 1
@@ -29,24 +20,39 @@ class VendorAdmin(admin.ModelAdmin):
     list_display = ('phone', 'name', 'email')
 
 
-# class AddressInline(admin.TabularInline):
-#     model = Address
-#     extra = 1
-#     max_num = 1
-#     fields = ('street', 'postcode')
-
-
-# class AppointmentInline(admin.TabularInline):
-#     model = Appointment
-#     extra = 1
-#     max_num = 1
-#     fields = ('date',)
-
-
 @admin.register(Job)
 class JobAdmin(admin.ModelAdmin):
-    list_display = ('ref', 'photos', 'floorplan')
     inlines = [VendorInline]
+    list_display = ('ref', 'client', 'agent', 'postcode', 'photos', 'floorplan','appointment')
+    fieldsets = [
+            ('Order:', {
+                    'fields':
+                        [
+                                'ref',
+                                ('client', 'agent')
+                        ]
+            }),
+            ('Details:', {
+                    'fields': [
+                            # put vendor inline here
+                            ('floorplan', 'photos'),
+                            ('address', 'postcode'),
+                            ('property_type', 'beds'),
+                            'specific_reqs',
+                            'notes',
+                    ]
+            }),
+            ('Appointment:', {
+                    'fields': [
+                            'appointment',
+                    ]
+            }),
+            ('History:', {
+                    'fields': [
+                            'history',
+                    ]
+            }),
+    ]
 
 
 class AgentDetailsInline(admin.TabularInline):
