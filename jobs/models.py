@@ -1,6 +1,5 @@
 from django.db import models
 
-
 # Create your models here.
 from django.urls import reverse
 
@@ -77,7 +76,7 @@ class Job(models.Model):
     ref = models.CharField(max_length=13)
     client = models.ForeignKey(Client, on_delete=models.CASCADE)
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
-    address = models.CharField(max_length=200, null=True, blank=True)
+    address = models.CharField(max_length=200)
     postcode = models.CharField(max_length=8, null=True, blank=True)
     property_choices = [('house', 'house'), ('flat', 'flat'), ('bungalow', 'bungalow'), ('semi', 'semi')]
     property_type = models.CharField(max_length=20, choices=property_choices, null=True, blank=True)
@@ -104,6 +103,9 @@ class Vendor(models.Model):
     name = models.CharField(max_length=100, null=True, blank=True)
     email = models.EmailField(max_length=100, null=True, blank=True)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ['id']
 
     def __str__(self):
         return str(self.name) if self.name else ""
