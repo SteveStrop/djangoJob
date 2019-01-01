@@ -16,13 +16,25 @@ def get_client(candidate):
 def get_agent(candidate):
     try:
         agent = Agent.objects.filter(branch__contains=candidate.agent)[0]
-        print(f'Candidate.agent is: {candidate.agent} \n agent is {agent}')
-        input("Continue from try?")
     except IndexError:
         agent = Agent.objects.create(branch=candidate.agent)
-        print(f'Candidate.agent is : {candidate.agent} \n agent is {agent}')
-        input("Continue from except?")
     return agent
+
+
+def get_notes(candidate):
+    try:
+        note = '\n'.join(note for note in candidate.notes)
+    except TypeError:
+        note = ""
+    return note
+
+
+def get_history(candidate):
+    try:
+        note = '\n'.join(note for note in candidate.system_notes[0])
+    except (TypeError, IndexError):
+        note = ""
+    return note
 
 
 def test_create(request):
@@ -35,17 +47,31 @@ def test_create(request):
         if Job.objects.all().filter(ref__contains=candidate.ref):
             pass
         else:
-            client = get_client(candidate)
-            agent = get_agent(candidate)
-            Job.objects.create(
+            job = Job.objects.create(
                     ref=candidate.ref,
-                    client=client,
-                    agent=agent,
+                    client=get_client(candidate),
+                    agent=get_agent(candidate),
                     address=candidate.appointment.address.street,
                     postcode=candidate.appointment.address.postcode,
+                    appointment=candidate.appointment.date,
+                    property_type=candidate.property_type,
+                    beds=candidate.beds,
+                    notes=get_notes(candidate),
+                    floorplan=candidate.floorplan,
+                    photos=candidate.photos,
+                    folder=candidate.folder,
+                    status=candidate.status,
+                    history=get_history(candidate),
+            )
+            Vendor.objects.create(
+                    name=candidate.vendor.name_1,
+                    phone=candidate.vendor.phone_1,
+                    # todo missing vendor notes (they're in Classes.Vendor but not in models.Vendor??)
+                    job=job
+
             )
 
-    return HttpResponse(f'Status: OK. {Job.objects.all().count()} jobs processed.')
+    return HttpResponse(f'{Job.objects.all().count()} jobs processed.\nStatus: OK.')
 
 
 class IndexListView(generic.ListView):
