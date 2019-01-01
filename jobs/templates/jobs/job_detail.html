@@ -1,0 +1,75 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+    <table class="staffgridview staffdetailview">
+        <tr>
+            <th width="20%">Job:</th>
+            <th>{{ job.ref }}</th>
+        </tr>
+        <tr>
+            <td><strong>Client:</strong>
+            <td>{{ job.client }}</td>
+        </tr>
+        <tr>
+            <td><strong>Agent:</strong></td>
+            <td>{% if job.agent %} {{ job.agent }} {% endif %} </td>
+        </tr>
+        {% for vendor in  job.vendor_set.all %}
+
+            <tr>
+                {% if forloop.counter == 1 %}
+                    <td><strong>Vendor:</strong></td>
+                {% else %}
+                    <td></td>
+                {% endif %}
+                <td>{% if vendor.name %}
+                    {{ vendor.name }}:
+                {% endif %}
+                    {{ vendor.phone }}
+                    {% if vendor.email %}
+                        ({{ vendor.email }})
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td><strong>Address:</strong></td>
+            <td>{{ job.address }} {{ job.postcode }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Property:</strong></td>
+            <td>{{ job.property_type }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Beds:</strong>
+            <td>{{ job.beds }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Floorplan:</strong>
+            <td>{% if job.floorplan %} Yes {% else %}No{% endif %}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Photos:</strong>
+            <td>{{ job.photos }}</td>
+        </tr>
+
+        <tr>
+            <td><strong>Extras:</strong>
+            <td>{{ job.specific_reqs }}</td>
+        </tr>
+        <tr>
+            <td><strong>Appointment:</strong>
+            <td>{% if job.appointment %} {{ job.appointment }}{% endif %}</td>
+        </tr>
+        <tr>
+            <td><strong>notes:</strong>
+            <td>{{ job.notes }}</td>
+        </tr>
+    </table>
+
+
+{% endblock %}
