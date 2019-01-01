@@ -24,7 +24,7 @@ class ClientDetail(models.Model):
 
 
 class Agent(models.Model):
-    branch = models.CharField(max_length=50)
+    branch = models.CharField(max_length=500)
     address = models.CharField(max_length=200, null=True, blank=True)
     postcode = models.CharField(max_length=8, null=True, blank=True)
 
@@ -78,8 +78,13 @@ class Job(models.Model):
     agent = models.ForeignKey(Agent, on_delete=models.SET_NULL, null=True, blank=True)
     address = models.CharField(max_length=200)
     postcode = models.CharField(max_length=8, null=True, blank=True)
-    property_choices = [('house', 'house'), ('flat', 'flat'), ('bungalow', 'bungalow'), ('semi', 'semi')]
-    property_type = models.CharField(max_length=20, choices=property_choices, null=True, blank=True)
+    PROPERTY_CHOICE = (
+            ('house', 'house'),
+            ('flat', 'flat'),
+            ('bungalow', 'bungalow'),
+            ('semi', 'semi')
+    )
+    property_type = models.CharField(max_length=20, choices=PROPERTY_CHOICE, null=True, blank=True)
     beds = models.SmallIntegerField(default=3, null=True, blank=True)
     notes = models.TextField(null=True, blank=True)
     floorplan = models.BooleanField(default=True, verbose_name='Floorplan required')
@@ -89,6 +94,9 @@ class Job(models.Model):
     status = models.BooleanField(default=True, verbose_name='Active')
     history = models.TextField(null=True, blank=True)
     appointment = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        ordering = ['appointment']
 
     def get_absolute_url(self):
         """Return the url to access a detailed record for this job"""

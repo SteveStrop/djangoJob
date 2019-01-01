@@ -1,7 +1,6 @@
 beautifulsoup4==4.6.3
 bs4==0.0.1
 Django==2.1.4
-EstateAgent==1.1.dev0
 lxml==4.2.5
 numpy==1.15.4
 pandas==0.23.4

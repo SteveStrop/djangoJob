@@ -108,3 +108,4 @@ venv.bak/
 .idea/
 jobs/migrations/
 /DjangoJobs/settings.py
+/EstateAgent/pw.py
