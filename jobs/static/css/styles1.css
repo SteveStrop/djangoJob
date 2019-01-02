@@ -1,8 +1,22 @@
 h1 {
+    font-size: 30px;
+    color: darkslategray;
+}
+
+h2 {
     font-size: 22px;
     color: darkslategray;
 }
 
+div {
+    position: relative;
+    /*display: inline-block;*/
+    margin: 0;
+}
+
+.widget-container{
+    height: 100%;
+}
 .sidebar-nav {
     margin-top: 20px;
     padding: 0;
@@ -20,17 +34,27 @@ h1 {
     padding-right: 20px;
 }
 
-.current_jobs {
-    position: absolute;
-    margin: 0;
-    transform: scale(1);
+.current_jobs, .new_table {
+    padding: 20px;
+    background: white;
+    transform: scale(.5);
     width: 90%;
     transition: 0.3s;
 }
 
-/*.current_jobs:hover{*/
-/*transform: scale(.5)*/
-/*}*/
+.current_jobs:hover, .new_table:hover {
+    z-index: 999;
+    transform: scale(1)
+}
+
+.new_table {
+    transform-origin: top right;
+    top:-43%;
+}
+
+.current_jobs {
+    transform-origin: top left;
+}
 
 .staffgridview {
     /*table-layout: fixed;*/
@@ -51,9 +75,11 @@ h1 {
     text-align: left;
     background-color: #EFEFEF;
 }
-.staffdetailview{
-width: 50%;
+
+.staffdetailview {
+    width: 50%;
 }
+
 .staffgridview td {
     padding: 2px;
     border: 1px solid #efefef;

@@ -16,8 +16,12 @@ def get_client(candidate):
 def get_agent(candidate):
     try:
         agent = Agent.objects.filter(branch__contains=candidate.agent)[0]
+        # print(f'candidate.agent = {candidate.agent}. agent = {agent} at try')
+        # input("Continue?")
     except IndexError:
         agent = Agent.objects.create(branch=candidate.agent)
+        # print(f'candidate.agent = {candidate.agent}. agent = {agent} at except')
+        # input("Continue?")
     return agent
 
 
@@ -37,13 +41,16 @@ def get_history(candidate):
     return note
 
 
-def test_create(request):
-    k = Scrapers.KaScraper()
-    jobs_links = k.extract_job_links()
-    candidate_jobs = [k.extract_job(l) for l in jobs_links]
-    k.scraper_close()
-    for candidate in candidate_jobs:
+def scrape(scraper):
+    jobs_links = scraper.extract_job_links()
+    jobs = [scraper.extract_job(l) for l in jobs_links]
+    scraper.scraper_close()
+    return jobs
 
+
+def test_create(request):
+    candidate_jobs = scrape(Scrapers.HsScraper()) + scrape(Scrapers.KaScraper())
+    for candidate in candidate_jobs:
         if Job.objects.all().filter(ref__contains=candidate.ref):
             pass
         else:
@@ -65,12 +72,10 @@ def test_create(request):
             )
             Vendor.objects.create(
                     name=candidate.vendor.name_1,
-                    phone=candidate.vendor.phone_1,
+                    phone=candidate.vendor.phone_1 if candidate.vendor.phone_1 else 'N/A',
                     # todo missing vendor notes (they're in Classes.Vendor but not in models.Vendor??)
                     job=job
-
             )
-
     return HttpResponse(f'{Job.objects.all().count()} jobs processed.\nStatus: OK.')
 
 

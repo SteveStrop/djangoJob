@@ -1,44 +1,94 @@
 {% extends "base_generic.html" %}
 
 {% block content %}
-    <div class = "current_jobs">
-    <h1>Your List Of Current Jobs</h1>
-    {% if job_list %}
-        <table class="staffgridview">
-            <tbody>
-            <tr>
-                <th>Client</th>
-                <th>Branch</th>
-                <th>Address</th>
-                <th>Floorplan</th>
-                <th>Photos</th>
-                <th>Appointment</th>
-            </tr>
+    <div>
+        <h1>Dashboard - Orella Images</h1>
+    <hr>
+    </div>
+    <div class="widget-container">
+        <div class="current_jobs">
+            <h2>Your List Of Current Jobs</h2>
+            {% if job_list %}
+                <table class="staffgridview">
+                    <tbody>
+                    <tr>
+                        <th>Client</th>
+                        <th>Branch</th>
+                        <th>Address</th>
+                        <th>Floorplan</th>
+                        <th>Photos</th>
+                        <th>Appointment</th>
+                    </tr>
 
-            {% for job in job_list %}
-                <tr>
-                    <td>{{job.client}}</td>
-                    {% if job.agent %}
-                        <td>{{ job.agent }}</td>
-                    {% else %}
-                        <td></td>
-                    {% endif %}
-                    <td><a href="{{ job.get_absolute_url }}">{{ job.address }}</a> ({{ job.beds }} bed {{job.property_type  }})</td>
-                    {% if job.floorplan %}
-                        <td class="floorplan">Y</td>
-                    {% else %}
-                        <td class="floorplan">N</td>
-                    {% endif %}
-                    <td>{{ job.photos }}</td>
-                    <td>{{ job.appointment }}</td>
-                </tr>
-            {% endfor %}
+                    {% for job in job_list %}
+                        <tr>
+                            <td>{{ job.client }}</td>
+                            {% if job.agent %}
+                                <td>{{ job.agent }}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td><a href="{{ job.get_absolute_url }}">{{ job.address }}</a> ({{ job.beds }}
+                                bed {{ job.property_type }})
+                            </td>
+                            {% if job.floorplan %}
+                                <td class="floorplan">Y</td>
+                            {% else %}
+                                <td class="floorplan">N</td>
+                            {% endif %}
+                            <td>{{ job.photos }}</td>
+                            <td>{{ job.appointment }}</td>
+                        </tr>
+                    {% endfor %}
 
 
-            </tbody>
-        </table>
-    {% else %}
-        <p>There are no jobs Steve, call Bianca.</p>
-    {% endif %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>There are no jobs Steve, call Bianca.</p>
+            {% endif %}
+        </div>
+        <div class="new_table">
+            <h2>Another Widget here</h2>
+            {% if job_list %}
+                <table class="staffgridview">
+                    <tbody>
+                    <tr>
+                        <th>Client</th>
+                        <th>Branch</th>
+                        <th>Address</th>
+                        <th>Floorplan</th>
+                        <th>Photos</th>
+                        <th>Appointment</th>
+                    </tr>
+
+                    {% for job in job_list %}
+                        <tr>
+                            <td>{{ job.client }}</td>
+                            {% if job.agent %}
+                                <td>{{ job.agent }}</td>
+                            {% else %}
+                                <td></td>
+                            {% endif %}
+                            <td><a href="{{ job.get_absolute_url }}">{{ job.address }}</a> ({{ job.beds }}
+                                bed {{ job.property_type }})
+                            </td>
+                            {% if job.floorplan %}
+                                <td class="floorplan">Y</td>
+                            {% else %}
+                                <td class="floorplan">N</td>
+                            {% endif %}
+                            <td>{{ job.photos }}</td>
+                            <td>{{ job.appointment }}</td>
+                        </tr>
+                    {% endfor %}
+
+
+                    </tbody>
+                </table>
+            {% else %}
+                <p>There are no jobs Steve, call Bianca.</p>
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
