@@ -265,7 +265,7 @@ if __name__ == '__main__':
     k = KaScraper()
     h = HsScraper()
     key_agent_jobs = k.scrape_site()
-    house_simple_jobs = h.scrape_site()
+    # house_simple_jobs = h.scrape_site()
     print(key_agent_jobs)
     # jobs_links = k.extract_job_links()
     # for l in jobs_links:

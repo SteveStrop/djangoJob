@@ -3,7 +3,7 @@
 {% block content %}
     <div>
         <h1>Dashboard - Orella Images</h1>
-    <hr>
+        <hr>
     </div>
     <div class="widget-container">
         <div class="current_jobs">
@@ -28,8 +28,8 @@
                             {% else %}
                                 <td></td>
                             {% endif %}
-                            <td><a href="{{ job.get_absolute_url }}">{{ job.address }}</a> ({{ job.beds }}
-                                bed {{ job.property_type }})
+                            <td>
+                                <a href="{{ job.get_absolute_url }}">{{ job.address }}</a> ({{ job.beds }} bed {{ job.property_type }}) <a href="{% url 'job-form' job.id %}">EDIT</a>
                             </td>
                             {% if job.floorplan %}
                                 <td class="floorplan">Y</td>

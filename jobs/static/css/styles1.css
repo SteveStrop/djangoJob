@@ -65,6 +65,9 @@ div {
     font-family: Verdana, Arial, Helvetica, sans-serif;
     border: 1px solid #efefef;
 }
+.staffgridview input{
+    border-width: 0 !important;
+}
 
 .staffgridview th {
     margin: 0;

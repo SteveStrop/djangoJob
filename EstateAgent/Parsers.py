@@ -13,7 +13,7 @@ class Parser:
     Parser maps 'ConfigXx.JOB_PAGE_DATA(and/or JOB_PAGE_TABLES)' to Job class attributes
     """
 
-    def __init__(self,scraper_data, config=None):
+    def __init__(self, scraper_data, config=None):
         """
         :param scraper_data : dict mirroring ConfigXx.JOB_PAGE_DATA.
                                It contains a complete description of a job scraped from a config's website
@@ -311,12 +311,13 @@ class KaParser(Parser):
        """
         # make pandas dataframe from table
         table = self.scraper_data["JOB_DATA_SPECIFIC_REQS_TABLE"]
-        try:
-            df = pd.read_html(str(table), header=0)[0]  # pandas dataframe
-        except ValueError:
-            return None
-        # read the table into a dict and return it
-        return {row['Specific Requirement']: row['Files required'] for _, row in df.iterrows()}
+        if table:
+            try:
+                df = pd.read_html(str(table), header=0)[0]  # pandas dataframe
+                # read the table into a dict and return it
+                return {row['Specific Requirement']: row['Files required'] for _, row in df.iterrows()}
+            except ValueError:
+                return None
 
     def _extract_system_notes(self):
         """
@@ -332,13 +333,16 @@ class KaParser(Parser):
 
         # make pandas dataframe from table
         table = self.scraper_data["JOB_DATA_HISTORY_TABLE"]
-        try:
-            df = pd.read_html(str(table), header=0)[0]  # pandas dataframe
-        except ValueError:
+        if table:
+            try:
+                df = pd.read_html(str(table), header=0)[0]  # pandas dataframe
+                # read the table into a list and abbreviate
+                return [[abbreviate(row['Date Created']), abbreviate(row['Created By']), abbreviate(row['Note'])]
+                        for _, row in df.iterrows()]
+            except ValueError:
+                return None
+        else:
             return None
-        # read the table into a list and abbreviate
-        return [[abbreviate(row['Date Created']), abbreviate(row['Created By']), abbreviate(row['Note'])] for _, row in
-                df.iterrows()]
 
 
 class HsParser(Parser):
